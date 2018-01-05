@@ -38,14 +38,14 @@ Usage
     <dependency>
       <groupId>com.github.quivr</groupId>
       <artifactId>android-week-view</artifactId>
-      <version>2.0.2</version>
+      <version>2.2.0</version>
       <type>aar</type>
     </dependency>
     ```
   * Grab via gradle
   
     ```groovy
-    compile 'com.github.quivr:android-week-view:2.0.2'
+    compile 'com.github.quivr:android-week-view:2.2.0'
     ```
 2. Add WeekView in your xml layout.
 
@@ -180,8 +180,9 @@ To do
 
 Changelog
 ---------
-**Version 2.0.1**
-* Make EventId on WeekViewEvent generic for custom calendar fetches
+**Version 2.2.0**
+* IMPORTANT: Prefetching isn't done by the library anymore (see [#42](/../../pull/42))
+* Strings can now be used as Id's of WeekViewEvents
 
 **Version 2.0.0**
 * This fork is first released
