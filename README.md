@@ -171,6 +171,7 @@ Use the following interfaces according to your need.
 - `mWeekView.setScrollListener()` to get an event every time the first visible day has changed
 - `mWeekView.setAddEventClickListener()` to get the start and end time of an event to add
 - `mWeekView.setTextColorPicker()` to change the textcolor of an event, based on the event. You can, for example, set a different text color depending on the color of the event.
+- `mWeekView.setDropListener()` to get a callback when a view is dropped at a certain date.
 
 Sample
 ----------
