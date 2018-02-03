@@ -38,14 +38,14 @@ Usage
     <dependency>
       <groupId>com.github.quivr</groupId>
       <artifactId>android-week-view</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
       <type>aar</type>
     </dependency>
     ```
   * Grab via gradle
   
     ```groovy
-    compile 'com.github.quivr:android-week-view:2.2.1'
+    compile 'com.github.quivr:android-week-view:2.2.2'
     ```
 2. Add WeekView in your xml layout.
 
@@ -185,6 +185,12 @@ To do
 
 Changelog
 ---------
+**Version 2.2.2**
+* Added `DropListener` and `dropListenerEnabled`
+* Added `TextColorPicker`
+* Fixed some problems with placement of add event rectangle
+* Added `minOverlappingMinutes`
+
 **Version 2.2.1**
 * Small fix on string equality
 
