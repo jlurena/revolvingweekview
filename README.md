@@ -34,7 +34,7 @@ Who uses it
 Getting Started
 ---------------
 
-View the [wiki](https://github.com/Quivr/Android-Week-View/wiki)
+See the [wiki](https://github.com/Quivr/Android-Week-View/wiki)
 
 Sample
 ----------
