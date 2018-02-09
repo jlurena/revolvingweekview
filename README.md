@@ -1,3 +1,6 @@
+[Join our slack](https://join.slack.com/t/androidweekview/shared_invite/enQtMzEyMDE3NzU3NTM3LWQyZGRhNjRlMTUzNzNlNjNlM2M0OTMyMDhjMzE1NDMzOGQzYzhjNzI2YjZhZWM3MzJiY2I1YmY2NGEwOTlkNTY)
+
+
 Android Week View
 =================
 
