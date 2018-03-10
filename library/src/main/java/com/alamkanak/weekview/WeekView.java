@@ -312,8 +312,13 @@ public class WeekView extends View {
                 }
             }
 
+            float xOffset = getXStartPixel();
+
+            float x = e.getX() - xOffset;
+            float y = e.getY() - mCurrentOrigin.y;
             // If the tap was on add new Event space, then trigger the callback
-            if (mAddEventClickListener != null && mNewEventRect != null && mNewEventRect.rectF != null && e.getX() > mNewEventRect.rectF.left && e.getX() < mNewEventRect.rectF.right && e.getY() > mNewEventRect.rectF.top && e.getY() < mNewEventRect.rectF.bottom) {
+            if (mAddEventClickListener != null && mNewEventRect != null && mNewEventRect.rectF != null &&
+                    mNewEventRect.rectF.contains(x,y)){
                 mAddEventClickListener.onAddEventClicked(mNewEventRect.event.getStartTime(), mNewEventRect.event.getEndTime());
                 return super.onSingleTapConfirmed(e);
             }
@@ -358,15 +363,13 @@ public class WeekView extends View {
 
                         WeekViewEvent newEvent = new WeekViewEvent(mNewEventIdentifier, "", null, selectedTime, endTime);
 
-                        int marginTop = mHourHeight * mMinTime;
-                        float top = selectedTime.get(Calendar.HOUR_OF_DAY) * 60;
-                        top = mHourHeight * top / 60 + mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 + mEventMarginVertical - marginTop;
-                        float bottom = endTime.get(Calendar.HOUR_OF_DAY) * 60;
-                        bottom = mHourHeight * bottom / 60 + mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - mEventMarginVertical - marginTop;
+                        float top = mHourHeight * getPassedMinutesInDay(selectedTime) / 60 + getEventsTop();
+                        float bottom = mHourHeight * getPassedMinutesInDay(endTime) / 60 + getEventsTop();
 
                         // Calculate left and right.
-                        float left = 0;
+                        float left = mWidthPerDay * WeekViewUtil.daysBetween(getFirstVisibleDay(), selectedTime);
                         float right = left + mWidthPerDay;
+
                         // Add the new event if its bounds are valid
                         if (left < right &&
                                 left < getWidth() &&
@@ -374,7 +377,7 @@ public class WeekView extends View {
                                 right > mHeaderColumnWidth &&
                                 bottom > 0
                                 ) {
-                            RectF dayRectF = new RectF(left, top, right, bottom);
+                            RectF dayRectF = new RectF(left, top , right, bottom - mCurrentOrigin.y);
                             newEvent.setColor(mNewEventColor);
                             mNewEventRect = new EventRect(newEvent, newEvent, dayRectF);
                             tempEvents.add(newEvent);
@@ -815,10 +818,9 @@ public class WeekView extends View {
             mCurrentOrigin.y = 0;
         }
 
+        int leftDaysWithGaps = getLeftDaysWithGaps();
         // Consider scroll offset.
-        int leftDaysWithGaps = (int) -(Math.ceil(mCurrentOrigin.x / (mWidthPerDay + mColumnGap)));
-        float startFromPixel = mCurrentOrigin.x + (mWidthPerDay + mColumnGap) * leftDaysWithGaps +
-                mHeaderColumnWidth;
+        float startFromPixel = getXStartPixel();
         float startPixel = startFromPixel;
 
         // Prepare to iterate for each day.
@@ -985,9 +987,8 @@ public class WeekView extends View {
      * @return The time and date at the clicked position.
      */
     private Calendar getTimeFromPoint(float x, float y) {
-        int leftDaysWithGaps = (int) -(Math.ceil(mCurrentOrigin.x / (mWidthPerDay + mColumnGap)));
-        float startPixel = mCurrentOrigin.x + (mWidthPerDay + mColumnGap) * leftDaysWithGaps +
-                mHeaderColumnWidth;
+        int leftDaysWithGaps = getLeftDaysWithGaps();
+        float startPixel = getXStartPixel();
         for (int dayNumber = leftDaysWithGaps + 1;
              dayNumber <= leftDaysWithGaps + getRealNumberOfVisibleDays() + 1;
              dayNumber++) {
@@ -1040,6 +1041,25 @@ public class WeekView extends View {
         }
     }
 
+    private int getMinHourOffset(){
+        return mHourHeight * mMinTime;
+    }
+
+    private float getEventsTop(){
+        // Calculate top.
+        return mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 + mEventMarginVertical - getMinHourOffset();
+
+    }
+
+    private int getLeftDaysWithGaps(){
+        return (int) -(Math.ceil(mCurrentOrigin.x / (mWidthPerDay + mColumnGap)));
+    }
+
+    private float getXStartPixel(){
+        return mCurrentOrigin.x + (mWidthPerDay + mColumnGap) * getLeftDaysWithGaps() +
+                mHeaderColumnWidth;
+    }
+
     /**
      * Draw all the events of a particular day.
      *
@@ -1051,14 +1071,8 @@ public class WeekView extends View {
         if (mEventRects != null && mEventRects.size() > 0) {
             for (int i = 0; i < mEventRects.size(); i++) {
                 if (isSameDay(mEventRects.get(i).event.getStartTime(), date) && !mEventRects.get(i).event.isAllDay()) {
-
-                    int marginTop = mHourHeight * mMinTime;
-                    // Calculate top.
-                    float top = mHourHeight * mEventRects.get(i).top / 60 + mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 + mEventMarginVertical - marginTop;
-
-                    // Calculate bottom.
-                    float bottom = mEventRects.get(i).bottom;
-                    bottom = mHourHeight * bottom / 60 + mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - mEventMarginVertical - marginTop;
+                    float top = mHourHeight * mEventRects.get(i).top / 60 + getEventsTop();
+                    float bottom = mHourHeight * mEventRects.get(i).bottom / 60 + getEventsTop();
 
                     // Calculate left and right.
                     float left = startFromPixel + mEventRects.get(i).left * mWidthPerDay;
@@ -1081,7 +1095,7 @@ public class WeekView extends View {
                         canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
                         float topToUse = top;
                         if (mEventRects.get(i).event.getStartTime().get(Calendar.HOUR_OF_DAY) < mMinTime)
-                            topToUse = mHourHeight * getPassedMinutesInDay(mMinTime, 0) / 60 + mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 + mEventMarginVertical - marginTop;
+                            topToUse = mHourHeight * getPassedMinutesInDay(mMinTime, 0) / 60 + getEventsTop();
 
                         if (!mNewEventIdentifier.equals(mEventRects.get(i).event.getIdentifier()))
                             drawEventTitle(mEventRects.get(i).event, mEventRects.get(i).rectF, canvas, topToUse, left);
@@ -1334,6 +1348,7 @@ public class WeekView extends View {
         for (WeekViewEvent splitedEvent : splitedEvents) {
             mEventRects.add(new EventRect(splitedEvent, event, null));
         }
+
         mEvents.add(event);
     }
 
