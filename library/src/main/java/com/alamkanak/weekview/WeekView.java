@@ -318,7 +318,7 @@ public class WeekView extends View {
             float y = e.getY() - mCurrentOrigin.y;
             // If the tap was on add new Event space, then trigger the callback
             if (mAddEventClickListener != null && mNewEventRect != null && mNewEventRect.rectF != null &&
-                    mNewEventRect.rectF.contains(x,y)){
+                    mNewEventRect.rectF.contains(x, y)) {
                 mAddEventClickListener.onAddEventClicked(mNewEventRect.event.getStartTime(), mNewEventRect.event.getEndTime());
                 return super.onSingleTapConfirmed(e);
             }
@@ -377,7 +377,7 @@ public class WeekView extends View {
                                 right > mHeaderColumnWidth &&
                                 bottom > 0
                                 ) {
-                            RectF dayRectF = new RectF(left, top , right, bottom - mCurrentOrigin.y);
+                            RectF dayRectF = new RectF(left, top, right, bottom - mCurrentOrigin.y);
                             newEvent.setColor(mNewEventColor);
                             mNewEventRect = new EventRect(newEvent, newEvent, dayRectF);
                             tempEvents.add(newEvent);
@@ -1041,21 +1041,21 @@ public class WeekView extends View {
         }
     }
 
-    private int getMinHourOffset(){
+    private int getMinHourOffset() {
         return mHourHeight * mMinTime;
     }
 
-    private float getEventsTop(){
+    private float getEventsTop() {
         // Calculate top.
         return mCurrentOrigin.y + mHeaderHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 + mEventMarginVertical - getMinHourOffset();
 
     }
 
-    private int getLeftDaysWithGaps(){
+    private int getLeftDaysWithGaps() {
         return (int) -(Math.ceil(mCurrentOrigin.x / (mWidthPerDay + mColumnGap)));
     }
 
-    private float getXStartPixel(){
+    private float getXStartPixel() {
         return mCurrentOrigin.x + (mWidthPerDay + mColumnGap) * getLeftDaysWithGaps() +
                 mHeaderColumnWidth;
     }
