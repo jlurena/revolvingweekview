@@ -205,39 +205,14 @@ public class WeekView extends View {
                     }
                     break;
                 }
-                case LEFT: {
-                    // Change direction if there was enough change.
-                    if (Math.abs(distanceX) > Math.abs(distanceY) && (distanceX < -mScaledTouchSlop)) {
-                        mCurrentScrollDirection = Direction.RIGHT;
-                    }
-                    break;
-                }
-                case RIGHT: {
-                    // Change direction if there was enough change.
-                    if (Math.abs(distanceX) > Math.abs(distanceY) && (distanceX > mScaledTouchSlop)) {
-                        mCurrentScrollDirection = Direction.LEFT;
-                    }
-                    break;
-                }
+                case LEFT:
+                case RIGHT:
                 default:
                     break;
             }
 
             // Calculate the new origin after scroll.
             switch (mCurrentScrollDirection) {
-                case LEFT:
-                case RIGHT:
-                    float minX = getXMinLimit();
-                    float maxX = getXMaxLimit();
-                    if ((mCurrentOrigin.x - (distanceX * mXScrollingSpeed)) > maxX) {
-                        mCurrentOrigin.x = maxX;
-                    } else if ((mCurrentOrigin.x - (distanceX * mXScrollingSpeed)) < minX) {
-                        mCurrentOrigin.x = minX;
-                    } else {
-                        mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
-                    }
-                    postInvalidateOnAnimation();
-                    break;
                 case VERTICAL:
                     float minY = getYMinLimit();
                     float maxY = getYMaxLimit();
@@ -261,9 +236,7 @@ public class WeekView extends View {
             if (mIsZooming)
                 return true;
 
-            if ((mCurrentFlingDirection == Direction.LEFT && !mHorizontalFlingEnabled) ||
-                    (mCurrentFlingDirection == Direction.RIGHT && !mHorizontalFlingEnabled) ||
-                    (mCurrentFlingDirection == Direction.VERTICAL && !mVerticalFlingEnabled)) {
+            if (mCurrentFlingDirection == Direction.VERTICAL && !mVerticalFlingEnabled) {
                 return true;
             }
 
@@ -271,10 +244,6 @@ public class WeekView extends View {
 
             mCurrentFlingDirection = mCurrentScrollDirection;
             switch (mCurrentFlingDirection) {
-                case LEFT:
-                case RIGHT:
-                    mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, (int) getXMinLimit(), (int) getXMaxLimit(), (int) getYMinLimit(), (int) getYMaxLimit());
-                    break;
                 case VERTICAL:
                     mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, (int) getXMinLimit(), (int) getXMaxLimit(), (int) getYMinLimit(), (int) getYMaxLimit());
                     break;
