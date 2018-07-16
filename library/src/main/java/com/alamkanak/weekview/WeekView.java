@@ -58,6 +58,7 @@ public class WeekView extends View {
         NONE, LEFT, RIGHT, VERTICAL
     }
 
+    private final static LocalDateTime localDateTime = LocalDateTime.now();
     private final Context mContext;
     private LocalDateTime mHomeDate;
     private LocalDateTime mMinDate;
@@ -584,7 +585,7 @@ public class WeekView extends View {
     }
 
     private void resetHomeDate() {
-        LocalDateTime newHomeDate = LocalDateTime.now();
+        LocalDateTime newHomeDate = localDateTime;
 
         if (mMinDate != null && newHomeDate.toLocalDate().isBefore(mMinDate.toLocalDate())) {
             newHomeDate = mMinDate;
@@ -754,7 +755,7 @@ public class WeekView extends View {
 
         calculateHeaderHeight(); //Make sure the header is the right size (depends on AllDay events)
 
-        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime today = localDateTime;
 
         if (mAreDimensionsInvalid) {
             mEffectiveMinHourHeight = Math.max(mMinHourHeight, (int) ((getHeight() - mHeaderHeight - mHeaderRowPadding * 2 - mHeaderMarginBottom) / (mMaxTime - mMinTime)));
@@ -880,7 +881,7 @@ public class WeekView extends View {
                     float startY = mHeaderHeight + mHeaderRowPadding * 2 + mTimeTextHeight / 2 + mHeaderMarginBottom + mCurrentOrigin.y;
 
                     if (isToday) {
-                        LocalDateTime now = LocalDateTime.now();
+                        LocalDateTime now = localDateTime;
                         float beforeNow = (now.getHour() - mMinTime + now.getMinute() / 60.0f) * mHourHeight;
                         canvas.drawRect(start, startY, startPixel + mWidthPerDay, startY + beforeNow, pastPaint);
                         canvas.drawRect(start, startY + beforeNow, startPixel + mWidthPerDay, getHeight(), futurePaint);
@@ -916,7 +917,7 @@ public class WeekView extends View {
             // Draw the line at the current time.
             if (mShowNowLine && isToday) {
                 float startY = mHeaderHeight + mHeaderRowPadding * 2 + mTimeTextHeight / 2 + mHeaderMarginBottom + mCurrentOrigin.y;
-                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime now = localDateTime;
                 float beforeNow = (now.getHour() - mMinTime + now.getMinute() / 60.0f) * mHourHeight;
                 float top = startY + beforeNow;
                 canvas.drawLine(start, top, startPixel + mWidthPerDay, top, mNowLinePaint);
@@ -1598,7 +1599,7 @@ public class WeekView extends View {
 
                 @Override
                 public String interpretTime(int hour, int minutes) {
-                    LocalDateTime calendar = LocalDateTime.now().withHour(hour).withMinute(minutes);
+                    LocalDateTime calendar = localDateTime.withHour(hour).withMinute(minutes);
                     DateTimeFormatter dateFormat;
                     if (DateFormat.is24HourFormat(getContext())) {
                         dateFormat = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault());
@@ -2007,7 +2008,7 @@ public class WeekView extends View {
      */
     public void setMinDate(LocalDateTime minDate) {
         if (minDate != null) {
-            minDate = LocalDateTime.now().with(LocalTime.MIN);
+            minDate = localDateTime.with(LocalTime.MIN);
             if (mMaxDate != null && minDate.isAfter(mMaxDate)) {
                 throw new IllegalArgumentException("minDate cannot be later than maxDate");
             }
@@ -2036,7 +2037,7 @@ public class WeekView extends View {
      */
     public void setMaxDate(LocalDateTime maxDate) {
         if (maxDate != null) {
-            maxDate = LocalDateTime.now().with(LocalTime.MIN);
+            maxDate = localDateTime.with(LocalTime.MIN);
             if (mMinDate != null && maxDate.isBefore(mMinDate)) {
                 throw new IllegalArgumentException("maxDate has to be after minDate");
             }
