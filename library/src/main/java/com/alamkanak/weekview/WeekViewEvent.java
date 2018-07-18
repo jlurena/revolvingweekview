@@ -3,12 +3,10 @@ package com.alamkanak.weekview;
 import android.graphics.Shader;
 import android.support.annotation.ColorInt;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.alamkanak.weekview.WeekViewUtil.isSameDay;
 
 /**
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
@@ -16,8 +14,8 @@ import static com.alamkanak.weekview.WeekViewUtil.isSameDay;
  */
 public class WeekViewEvent {
     private String mId;
-    private LocalDateTime mStartTime;
-    private LocalDateTime mEndTime;
+    private DayTime mStartTime;
+    private DayTime mEndTime;
     private String mName;
     private String mLocation;
     private @ColorInt int mColor;
@@ -33,48 +31,20 @@ public class WeekViewEvent {
      *
      * @param id The id of the event as String.
      * @param name Name of the event.
-     * @param startYear Year when the event starts.
-     * @param startMonth Month when the event starts.
      * @param startDay Day when the event starts.
      * @param startHour Hour (in 24-hour format) when the event starts.
      * @param startMinute Minute when the event starts.
-     * @param endYear Year when the event ends.
-     * @param endMonth Month when the event ends.
      * @param endDay Day when the event ends.
      * @param endHour Hour (in 24-hour format) when the event ends.
      * @param endMinute Minute when the event ends.
      */
-    public WeekViewEvent(String id, String name, int startYear, int startMonth, int startDay, int startHour, int
-            startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
+    public WeekViewEvent(String id, String name, int startDay, int startHour, int startMinute, int endDay, int endHour, int endMinute) {
         this.mId = id;
 
-        this.mStartTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
-        this.mEndTime = LocalDateTime.of(endYear, endMonth, endDay, endHour, endMinute);
+        this.mStartTime = new DayTime(startDay, startHour, startMinute);
+        this.mEndTime = new DayTime(endDay, endHour, endMinute);
 
         this.mName = name;
-    }
-
-    /**
-     * Initializes the event for week view.
-     *
-     * @param id The id of the event.
-     * @param name Name of the event.
-     * @param startYear Year when the event starts.
-     * @param startMonth Month when the event starts.
-     * @param startDay Day when the event starts.
-     * @param startHour Hour (in 24-hour format) when the event starts.
-     * @param startMinute Minute when the event starts.
-     * @param endYear Year when the event ends.
-     * @param endMonth Month when the event ends.
-     * @param endDay Day when the event ends.
-     * @param endHour Hour (in 24-hour format) when the event ends.
-     * @param endMinute Minute when the event ends.
-     */
-    @Deprecated
-    public WeekViewEvent(long id, String name, int startYear, int startMonth, int startDay, int startHour, int
-            startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
-        this(String.valueOf(id), name, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth,
-                endDay, endHour, endMinute);
     }
 
     /**
@@ -88,7 +58,7 @@ public class WeekViewEvent {
      * @param allDay Is the event an all day event.
      * @param shader the Shader of the event rectangle
      */
-    public WeekViewEvent(String id, String name, String location, LocalDateTime startTime, LocalDateTime endTime, boolean allDay, Shader shader) {
+    public WeekViewEvent(String id, String name, String location, DayTime startTime, DayTime endTime, boolean allDay, Shader shader) {
         this.mId = id;
         this.mName = name;
         this.mLocation = location;
@@ -110,7 +80,7 @@ public class WeekViewEvent {
      * @param shader the Shader of the event rectangle
      */
     @Deprecated
-    public WeekViewEvent(long id, String name, String location, LocalDateTime startTime, LocalDateTime endTime, boolean allDay,
+    public WeekViewEvent(long id, String name, String location, DayTime startTime, DayTime endTime, boolean allDay,
             Shader shader) {
         this(String.valueOf(id), name, location, startTime, endTime, allDay, shader);
     }
@@ -125,7 +95,7 @@ public class WeekViewEvent {
      * @param endTime The time when the event ends.
      * @param allDay Is the event an all day event
      */
-    public WeekViewEvent(String id, String name, String location, LocalDateTime startTime, LocalDateTime endTime, boolean
+    public WeekViewEvent(String id, String name, String location, DayTime startTime, DayTime endTime, boolean
             allDay) {
         this(id, name, location, startTime, endTime, allDay, null);
     }
@@ -139,7 +109,7 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime The time when the event ends.
      */
-    public WeekViewEvent(String id, String name, String location, LocalDateTime startTime, LocalDateTime endTime) {
+    public WeekViewEvent(String id, String name, String location, DayTime startTime, DayTime endTime) {
         this(id, name, location, startTime, endTime, false);
     }
 
@@ -151,23 +121,23 @@ public class WeekViewEvent {
      * @param startTime The time when the event starts.
      * @param endTime The time when the event ends.
      */
-    public WeekViewEvent(String id, String name, LocalDateTime startTime, LocalDateTime endTime) {
+    public WeekViewEvent(String id, String name, DayTime startTime, DayTime endTime) {
         this(id, name, null, startTime, endTime);
     }
 
-    public LocalDateTime getStartTime() {
+    public DayTime getStartTime() {
         return mStartTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(DayTime startTime) {
         this.mStartTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public DayTime getEndTime() {
         return mEndTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(DayTime endTime) {
         this.mEndTime = endTime;
     }
 
@@ -239,29 +209,28 @@ public class WeekViewEvent {
     public List<WeekViewEvent> splitWeekViewEvents() {
         //This function splits the WeekViewEvent in WeekViewEvents by day
         List<WeekViewEvent> events = new ArrayList<>();
-        // The first millisecond of the next day is still the same day. (no need to split events for this).
-        LocalDateTime endTime = this.mEndTime.minusNanos(1);
-        if (!isSameDay(this.getStartTime(), endTime)) {
-            endTime = this.mStartTime.with(LocalTime.MAX);
+        DayTime endTime = new DayTime(this.mEndTime);
+        if (this.mStartTime.getDay() != endTime.getDay()) {
+            endTime = new DayTime(this.mStartTime.getDay(), LocalTime.MAX);
             WeekViewEvent event1 = new WeekViewEvent(this.mId, this.mName, this.mLocation, this.mStartTime, endTime, this.mAllDay);
             event1.setColor(this.mColor);
             events.add(event1);
 
             // Add other days.
-            LocalDateTime otherDay = this.mStartTime.withDayOfMonth(1);
-            while (!isSameDay(otherDay, this.getEndTime())) {
-                LocalDateTime overDay = otherDay.with(LocalTime.MIN);
-                LocalDateTime endOfOverDay = overDay.with(LocalTime.MAX);
+            DayTime otherDay = new DayTime(DayOfWeek.of(1), this.mStartTime.getTime());
+            while (otherDay.getDay() != this.mEndTime.getDay()) {
+                DayTime overDay = new DayTime(otherDay.getDay(), LocalTime.MIN);
+                DayTime endOfOverDay = new DayTime(overDay.getDay(), LocalTime.MAX);
                 WeekViewEvent eventMore = new WeekViewEvent(this.mId, this.mName, null, overDay, endOfOverDay, this.mAllDay);
                 eventMore.setColor(this.getColor());
                 events.add(eventMore);
 
                 // Add next day.
-                otherDay = otherDay.plusDays(1);
+                otherDay.addDays(1);
             }
 
             // Add last day.
-            LocalDateTime startTime = this.mEndTime.with(LocalTime.MIN);
+            DayTime startTime = new DayTime(this.mEndTime.getDay(), LocalTime.MIN);
             WeekViewEvent event2 = new WeekViewEvent(this.mId, this.mName, this.mLocation, startTime, this.mEndTime, this.mAllDay);
             event2.setColor(this.getColor());
             events.add(event2);
