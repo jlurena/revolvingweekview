@@ -1,5 +1,6 @@
 package com.alamkanak.weekview;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -16,25 +17,14 @@ public class WeekViewUtil {
     /////////////////////////////////////////////////////////////////
 
     /**
-     * Checks if two dates are on the same day.
-     *
-     * @param dateOne The first date.
-     * @param dateTwo The second date.     *
-     * @return Whether the dates are on the same day.
-     */
-    public static boolean isSameDay(LocalDateTime dateOne, LocalDateTime dateTwo) {
-        return dateOne.toLocalDate().isEqual(dateTwo.toLocalDate());
-    }
-
-    /**
      * Returns the amount of days between the second date and the first date
      *
      * @param dateOne the first date
      * @param dateTwo the second date
      * @return the amount of days between dateTwo and dateOne
      */
-    public static long daysBetween(LocalDateTime dateOne, LocalDateTime dateTwo) {
-        return Duration.between(dateOne, dateTwo).toDays();
+    public static long daysBetween(DayOfWeek dateOne, DayOfWeek dateTwo) {
+        return Math.abs(dateOne.getValue() - dateTwo.getValue());
     }
 
     /*
@@ -42,7 +32,7 @@ public class WeekViewUtil {
      * @param date
      * @return amount of minutes in day before time
      */
-    public static int getPassedMinutesInDay(LocalDateTime date) {
+    public static int getPassedMinutesInDay(DayTime date) {
         return getPassedMinutesInDay(date.getHour(), date.getMinute());
     }
 

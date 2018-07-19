@@ -1,10 +1,13 @@
 package com.alamkanak.weekview;
 
+import android.support.annotation.NonNull;
+
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class DayTime {
+public class DayTime implements Comparable<DayTime> {
 
     private LocalTime time;
     private DayOfWeek day;
@@ -57,6 +60,20 @@ public class DayTime {
      * Default constructor with no parameters.
      */
     public DayTime() {}
+
+    public DayTime(LocalDateTime localDateTime) {
+        this.day = localDateTime.getDayOfWeek();
+        this.time = localDateTime.toLocalTime();
+    }
+
+    @Override
+    public int compareTo(@NonNull DayTime dayTime) {
+        if (this.day == dayTime.day) {
+            return this.time.compareTo(dayTime.time);
+        } else {
+            return this.day.compareTo(dayTime.day);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -147,5 +164,48 @@ public class DayTime {
      */
     public long toNumericalUnit() {
         return (this.getTime().toNanoOfDay()) + this.getDay().getValue();
+    }
+
+    /**
+     * Get minute in time.
+     * @return Minute in time.
+     */
+    public int getMinute() {
+        return this.time.getMinute();
+    }
+
+    /**
+     * Get hour in time
+     * @return Hour in time.
+     */
+    public int getHour() {
+        return this.time.getHour();
+    }
+
+    /**
+     * Check if this DayTime is before.
+     * @param otherDayTime Other DayTime to compare to.
+     * @return true if it is before else false.
+     */
+    public boolean isBefore(DayTime otherDayTime) {
+        return this.compareTo(otherDayTime) < 0;
+    }
+
+    /**
+     * Check if this DayTime is after.
+     * @param otherDayTime Other DayTime to compare to.
+     * @return true if it is after else false.
+     */
+    public boolean isAfter(DayTime otherDayTime) {
+        return this.compareTo(otherDayTime) > 0;
+    }
+
+    /**
+     * Check if this DayTime is same.
+     * @param otherDayTime Other DayTime to compare to.
+     * @return true if it is same time else false.
+     */
+    public boolean isSame(DayTime otherDayTime) {
+        return this.compareTo(otherDayTime) == 0;
     }
 }

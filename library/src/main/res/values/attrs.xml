@@ -5,10 +5,6 @@
         <attr name="autoLimitTime" format="boolean" />
         <attr name="columnGap" format="dimension" />
         <attr name="dayBackgroundColor" format="color" />
-        <attr name="dayNameLength" format="enum">
-            <enum name="length_short" value="1" />
-            <enum name="length_long" value="2" />
-        </attr>
         <attr name="eventCornerRadius" format="dimension" />
         <attr name="eventMarginVertical" format="dimension" />
         <attr name="eventPadding" format="dimension" />

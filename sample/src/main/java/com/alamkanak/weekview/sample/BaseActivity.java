@@ -13,13 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
+import com.alamkanak.weekview.DayTime;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -161,11 +164,8 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
     private void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
-            public String interpretDate(LocalDateTime date) {
-                DateTimeFormatter weekdayNameFormat = DateTimeFormatter.ofPattern("EEE", Locale.getDefault());
-                String weekday = date.format(weekdayNameFormat);
-                DateTimeFormatter format = DateTimeFormatter.ofPattern(" M/d", Locale.getDefault());
-                return weekday.toUpperCase() + date.format(format);
+            public String interpretDate(DayOfWeek date) {
+                return date.getDisplayName(TextStyle.FULL, Locale.getDefault());
             }
 
             @Override
@@ -184,8 +184,8 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
         });
     }
 
-    protected String getEventTitle(LocalDateTime time) {
-        return String.format("Event of %02d:%02d %s/%d", time.getHour(), time.getMinute(), time.getMonthValue() + 1, time.getDayOfMonth());
+    protected String getEventTitle(DayTime time) {
+        return String.format(Locale.getDefault(), "Event of %02d:%02d", time.getHour(), time.getMinute());
     }
 
     @Override
@@ -199,7 +199,7 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
     }
 
     @Override
-    public void onEmptyViewLongPress(LocalDateTime time) {
+    public void onEmptyViewLongPress(DayTime time) {
         Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
 
@@ -208,22 +208,22 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
     }
 
     @Override
-    public void onEmptyViewClicked(LocalDateTime date) {
+    public void onEmptyViewClicked(DayTime date) {
         Toast.makeText(this, "Empty view" + " clicked: " + getEventTitle(date), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+    public List<? extends WeekViewEvent> onMonthChange() {
         return null;
     }
 
     @Override
-    public void onAddEventClicked(LocalDateTime startTime, LocalDateTime endTime) {
+    public void onAddEventClicked(DayTime startTime, DayTime endTime) {
         Toast.makeText(this, "Add event clicked.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDrop(View view, LocalDateTime date) {
+    public void onDrop(View view, DayTime date) {
         Toast.makeText(this, "View dropped to " + date.toString(), Toast.LENGTH_SHORT).show();
     }
 }

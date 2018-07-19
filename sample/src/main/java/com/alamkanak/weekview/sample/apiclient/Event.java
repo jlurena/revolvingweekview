@@ -3,6 +3,7 @@ package com.alamkanak.weekview.sample.apiclient;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 
+import com.alamkanak.weekview.DayTime;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -95,8 +96,9 @@ public class Event {
         }
 
         // Initialize start and end time.
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime after = now.plusHours(1);
+        DayTime now = new DayTime(LocalDateTime.now());
+        DayTime after = new DayTime(now);
+        now.addMinutes(30);
 
         // Create an week view event.
         WeekViewEvent weekViewEvent = new WeekViewEvent();

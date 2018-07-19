@@ -4,9 +4,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import com.alamkanak.weekview.DayTime;
 import com.alamkanak.weekview.TextColorPicker;
 import com.alamkanak.weekview.WeekViewEvent;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +38,14 @@ public class BasicActivity extends BaseActivity {
     }
 
     @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+    public List<? extends WeekViewEvent> onMonthChange() {
         // Populate the week view with some events.
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            LocalDateTime startTime = LocalDateTime.now().plusHours(i*(random.nextInt(3) + 1));
-            LocalDateTime endTime = startTime.plusMinutes(30);
+            DayTime startTime = new DayTime(LocalDateTime.now().plusHours(i*(random.nextInt(3) + 1)));
+            DayTime endTime = new DayTime(startTime);
+            endTime.addMinutes(30);
             events.add(new WeekViewEvent("ID" + i, "Event " + i, startTime, endTime));
         }
         return events;
