@@ -11,19 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.support.v7.app.AppCompatActivity;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.DayTime;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Calendar;
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.format.TextStyle;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -33,7 +31,7 @@ import java.util.Locale;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public abstract class BaseActivity extends Activity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener, WeekView.AddEventClickListener, WeekView.DropListener {
+public abstract class BaseActivity extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener, WeekView.AddEventClickListener, WeekView.DropListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -43,6 +41,7 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidThreeTen.init(this);
         setContentView(R.layout.activity_base);
 
         TextView draggableView = (TextView) findViewById(R.id.draggable_view);
@@ -82,7 +81,7 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
 
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional.
-        setupDateTimeInterpreter(false);
+        setupDateTimeInterpreter();
     }
 
     @Override
@@ -95,7 +94,7 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
         public boolean onLongClick(View v) {
             ClipData data = ClipData.newPlainText("", "");
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-            v.startDragAndDrop(data, shadowBuilder, v, 0);
+            v.startDrag(data, shadowBuilder, v, 0);
             return true;
         }
     }
@@ -109,7 +108,7 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        setupDateTimeInterpreter(id == R.id.action_week_view);
+        setupDateTimeInterpreter();
         switch (id) {
             case R.id.action_today:
                 mWeekView.goToToday();
@@ -159,9 +158,8 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
      * Set up a date time interpreter which will show short date values when in week view and long
      * date values otherwise.
      *
-     * @param shortDate True if the date values should be short.
      */
-    private void setupDateTimeInterpreter(final boolean shortDate) {
+    private void setupDateTimeInterpreter() {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(DayOfWeek date) {
@@ -170,7 +168,7 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
 
             @Override
             public String interpretTime(int hour, int minutes) {
-                String strMinutes = String.format("%02d", minutes);
+                String strMinutes = String.format(Locale.getDefault(), "%02d", minutes);
                 if (hour > 11) {
                     return (hour - 12) + ":" + strMinutes + " PM";
                 } else {
@@ -185,12 +183,12 @@ public abstract class BaseActivity extends Activity implements WeekView.EventCli
     }
 
     protected String getEventTitle(DayTime time) {
-        return String.format(Locale.getDefault(), "Event of %02d:%02d", time.getHour(), time.getMinute());
+        return String.format(Locale.getDefault(), "Event of %s %02d:%02d", time.getDay().getDisplayName(TextStyle.SHORT, Locale.getDefault()), time.getHour(), time.getMinute());
     }
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clicked " + event.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

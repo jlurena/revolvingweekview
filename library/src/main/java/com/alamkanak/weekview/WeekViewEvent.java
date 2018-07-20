@@ -3,8 +3,9 @@ package com.alamkanak.weekview;
 import android.graphics.Shader;
 import android.support.annotation.ColorInt;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.LocalTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class WeekViewEvent {
      * @param endHour Hour (in 24-hour format) when the event ends.
      * @param endMinute Minute when the event ends.
      */
-    public WeekViewEvent(String id, String name, int startDay, int startHour, int startMinute, int endDay, int endHour, int endMinute) {
+    public WeekViewEvent(String id, String name, int startDay, int startHour, int startMinute, int endDay, int
+            endHour, int endMinute) {
         this.mId = id;
 
         this.mStartTime = new DayTime(startDay, startHour, startMinute);
@@ -58,7 +60,8 @@ public class WeekViewEvent {
      * @param allDay Is the event an all day event.
      * @param shader the Shader of the event rectangle
      */
-    public WeekViewEvent(String id, String name, String location, DayTime startTime, DayTime endTime, boolean allDay, Shader shader) {
+    public WeekViewEvent(String id, String name, String location, DayTime startTime, DayTime endTime, boolean allDay,
+            Shader shader) {
         this.mId = id;
         this.mName = name;
         this.mLocation = location;
@@ -125,70 +128,6 @@ public class WeekViewEvent {
         this(id, name, null, startTime, endTime);
     }
 
-    public DayTime getStartTime() {
-        return mStartTime;
-    }
-
-    public void setStartTime(DayTime startTime) {
-        this.mStartTime = startTime;
-    }
-
-    public DayTime getEndTime() {
-        return mEndTime;
-    }
-
-    public void setEndTime(DayTime endTime) {
-        this.mEndTime = endTime;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(String name) {
-        this.mName = name;
-    }
-
-    public String getLocation() {
-        return mLocation;
-    }
-
-    public void setLocation(String location) {
-        this.mLocation = location;
-    }
-
-    public @ColorInt int getColor() {
-        return mColor;
-    }
-
-    public void setColor(int color) {
-        this.mColor = color;
-    }
-
-    public boolean isAllDay() {
-        return mAllDay;
-    }
-
-    public void setAllDay(boolean allDay) {
-        this.mAllDay = allDay;
-    }
-
-    public Shader getShader() {
-        return mShader;
-    }
-
-    public void setShader(Shader shader) {
-        mShader = shader;
-    }
-
-    public String getIdentifier() {
-        return mId;
-    }
-
-    public void setIdentifier(String id) {
-        this.mId = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -201,9 +140,74 @@ public class WeekViewEvent {
         return mId.equals(that.mId);
     }
 
+    public @ColorInt
+    int getColor() {
+        return mColor;
+    }
+
+    public void setColor(int color) {
+        this.mColor = color;
+    }
+
+    public DayTime getEndTime() {
+        return mEndTime;
+    }
+
+    public void setEndTime(DayTime endTime) {
+        this.mEndTime = endTime;
+    }
+
+    public String getIdentifier() {
+        return mId;
+    }
+
+    public void setIdentifier(String id) {
+        this.mId = id;
+    }
+
+    public String getLocation() {
+        return mLocation;
+    }
+
+    public void setLocation(String location) {
+        this.mLocation = location;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        this.mName = name;
+    }
+
+    public Shader getShader() {
+        return mShader;
+    }
+
+    public void setShader(Shader shader) {
+        mShader = shader;
+    }
+
+    public DayTime getStartTime() {
+        return mStartTime;
+    }
+
+    public void setStartTime(DayTime startTime) {
+        this.mStartTime = startTime;
+    }
+
     @Override
     public int hashCode() {
         return mId.hashCode();
+    }
+
+    public boolean isAllDay() {
+        return mAllDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.mAllDay = allDay;
     }
 
     public List<WeekViewEvent> splitWeekViewEvents() {
@@ -212,7 +216,8 @@ public class WeekViewEvent {
         DayTime endTime = new DayTime(this.mEndTime);
         if (this.mStartTime.getDay() != endTime.getDay()) {
             endTime = new DayTime(this.mStartTime.getDay(), LocalTime.MAX);
-            WeekViewEvent event1 = new WeekViewEvent(this.mId, this.mName, this.mLocation, this.mStartTime, endTime, this.mAllDay);
+            WeekViewEvent event1 = new WeekViewEvent(this.mId, this.mName, this.mLocation, this.mStartTime, endTime,
+                    this.mAllDay);
             event1.setColor(this.mColor);
             events.add(event1);
 
@@ -221,7 +226,8 @@ public class WeekViewEvent {
             while (otherDay.getDay() != this.mEndTime.getDay()) {
                 DayTime overDay = new DayTime(otherDay.getDay(), LocalTime.MIN);
                 DayTime endOfOverDay = new DayTime(overDay.getDay(), LocalTime.MAX);
-                WeekViewEvent eventMore = new WeekViewEvent(this.mId, this.mName, null, overDay, endOfOverDay, this.mAllDay);
+                WeekViewEvent eventMore = new WeekViewEvent(this.mId, this.mName, null, overDay, endOfOverDay, this
+                        .mAllDay);
                 eventMore.setColor(this.getColor());
                 events.add(eventMore);
 
@@ -231,7 +237,8 @@ public class WeekViewEvent {
 
             // Add last day.
             DayTime startTime = new DayTime(this.mEndTime.getDay(), LocalTime.MIN);
-            WeekViewEvent event2 = new WeekViewEvent(this.mId, this.mName, this.mLocation, startTime, this.mEndTime, this.mAllDay);
+            WeekViewEvent event2 = new WeekViewEvent(this.mId, this.mName, this.mLocation, startTime, this.mEndTime,
+                    this.mAllDay);
             event2.setColor(this.getColor());
             events.add(event2);
         } else {
@@ -239,5 +246,16 @@ public class WeekViewEvent {
         }
 
         return events;
+    }
+
+    @Override
+    public String toString() {
+        return "WeekViewEvent{" +
+                "mId='" + mId + '\'' +
+                ", mStartTime=" + mStartTime +
+                ", mEndTime=" + mEndTime +
+                ", mName='" + mName + '\'' +
+                ", mLocation='" + mLocation + '\'' +
+                '}';
     }
 }

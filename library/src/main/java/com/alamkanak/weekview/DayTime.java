@@ -2,9 +2,11 @@ package com.alamkanak.weekview;
 
 import android.support.annotation.NonNull;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.Objects;
 
 public class DayTime implements Comparable<DayTime> {
@@ -19,6 +21,7 @@ public class DayTime implements Comparable<DayTime> {
 
     /**
      * Create a DayTime object event.
+     *
      * @param day A {@link DayOfWeek# day of the week}.
      * @param time The {@link LocalTime# time}.
      */
@@ -29,6 +32,7 @@ public class DayTime implements Comparable<DayTime> {
 
     /**
      * Create a DayTime object event.
+     *
      * @param day A {@link DayOfWeek day of the week}.
      * @param hour Hour of day from 0-23.
      * @param minute Minute of day from 0-59.
@@ -39,6 +43,7 @@ public class DayTime implements Comparable<DayTime> {
 
     /**
      * Create a DayTime object event.
+     *
      * @param day Integer representing a day of the week based on {@link DayOfWeek}
      * @param hour Hour of day from 0-23.
      * @param minute Minute of day from 0-59.
@@ -49,6 +54,7 @@ public class DayTime implements Comparable<DayTime> {
 
     /**
      * Create a DayTime object event.
+     *
      * @param day Integer representing a day of the weej based on {@link DayOfWeek}
      * @param time The {@link LocalTime# time}.
      */
@@ -59,11 +65,39 @@ public class DayTime implements Comparable<DayTime> {
     /**
      * Default constructor with no parameters.
      */
-    public DayTime() {}
+    public DayTime() {
+    }
 
     public DayTime(LocalDateTime localDateTime) {
         this.day = localDateTime.getDayOfWeek();
         this.time = localDateTime.toLocalTime();
+    }
+
+    /**
+     * Adds days to this DayTime object.
+     *
+     * @param days Days to add.
+     */
+    public void addDays(int days) {
+        this.day = this.day.plus(days);
+    }
+
+    /**
+     * Adds hours to this time.
+     *
+     * @param hours Hours to add.
+     */
+    public void addHours(int hours) {
+        this.time = this.time.plusHours(hours);
+    }
+
+    /**
+     * Adds minutes to this time.
+     *
+     * @param minutes Minutes to add.
+     */
+    public void addMinutes(int minutes) {
+        this.time = this.time.plusMinutes(minutes);
     }
 
     @Override
@@ -86,9 +120,35 @@ public class DayTime implements Comparable<DayTime> {
                 day == dayTime.day;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(time, day);
+    public DayOfWeek getDay() {
+        return day;
+    }
+
+    /**
+     * Sets the day of week based on values in #{@link DayOfWeek}.
+     *
+     * @param day Integer representing the day of the week.
+     */
+    public void setDay(int day) {
+        this.day = DayOfWeek.of(day);
+    }
+
+    /**
+     * Get hour in time
+     *
+     * @return Hour in time.
+     */
+    public int getHour() {
+        return this.time.getHour();
+    }
+
+    /**
+     * Get minute in time.
+     *
+     * @return Minute in time.
+     */
+    public int getMinute() {
+        return this.time.getMinute();
     }
 
     public LocalTime getTime() {
@@ -99,48 +159,43 @@ public class DayTime implements Comparable<DayTime> {
         this.time = time;
     }
 
-    public void setTime(int hour, int minute) {
-        this.time = time.withHour(hour).withMinute(minute);
+    @Override
+    public int hashCode() {
+        return Objects.hash(time, day);
     }
 
-    public DayOfWeek getDay() {
-        return day;
+    /**
+     * Check if this DayTime is after.
+     *
+     * @param otherDayTime Other DayTime to compare to.
+     * @return true if it is after else false.
+     */
+    public boolean isAfter(DayTime otherDayTime) {
+        return this.compareTo(otherDayTime) > 0;
+    }
+
+    /**
+     * Check if this DayTime is before.
+     *
+     * @param otherDayTime Other DayTime to compare to.
+     * @return true if it is before else false.
+     */
+    public boolean isBefore(DayTime otherDayTime) {
+        return this.compareTo(otherDayTime) < 0;
+    }
+
+    /**
+     * Check if this DayTime is same.
+     *
+     * @param otherDayTime Other DayTime to compare to.
+     * @return true if it is same time else false.
+     */
+    public boolean isSame(DayTime otherDayTime) {
+        return this.compareTo(otherDayTime) == 0;
     }
 
     public void setDay(DayOfWeek day) {
         this.day = day;
-    }
-
-    /**
-     * Sets the day of week based on values in #{@link DayOfWeek}.
-     * @param day Integer representing the day of the week.
-     */
-    public void setDay(int day) {
-        this.day = DayOfWeek.of(day);
-    }
-
-    /**
-     * Adds hours to this time.
-     * @param hours Hours to add.
-     */
-    public void addHours(int hours) {
-        this.time = this.time.plusHours(hours);
-    }
-
-    /**
-     * Subtracts minutes from this time.
-     * @param minutes Minutes to substract.
-     */
-    public void subtractMinutes(int minutes) {
-        this.time = this.time.minusMinutes(minutes);
-    }
-
-    /**
-     * Adds minutes to this time.
-     * @param minutes Minutes to add.
-     */
-    public void addMinutes(int minutes) {
-        this.time = this.time.plusMinutes(minutes);
     }
 
     /**
@@ -150,62 +205,34 @@ public class DayTime implements Comparable<DayTime> {
         this.time = LocalTime.MIN;
     }
 
+    public void setTime(int hour, int minute) {
+        this.time = LocalTime.of(hour, minute);
+    }
+
     /**
-     * Adds days to this DayTime object.
-     * @param days Days to add.
+     * Subtracts minutes from this time.
+     *
+     * @param minutes Minutes to substract.
      */
-    public void addDays(int days) {
-        this.day = this.day.plus(days);
+    public void subtractMinutes(int minutes) {
+        this.time = this.time.minusMinutes(minutes);
     }
 
     /**
      * Get this DayTime object as a numerical unit of NanoSeconds + DayValue.
+     *
      * @return A number representing the day.
      */
     public long toNumericalUnit() {
         return (this.getTime().toNanoOfDay()) + this.getDay().getValue();
     }
 
-    /**
-     * Get minute in time.
-     * @return Minute in time.
-     */
-    public int getMinute() {
-        return this.time.getMinute();
-    }
-
-    /**
-     * Get hour in time
-     * @return Hour in time.
-     */
-    public int getHour() {
-        return this.time.getHour();
-    }
-
-    /**
-     * Check if this DayTime is before.
-     * @param otherDayTime Other DayTime to compare to.
-     * @return true if it is before else false.
-     */
-    public boolean isBefore(DayTime otherDayTime) {
-        return this.compareTo(otherDayTime) < 0;
-    }
-
-    /**
-     * Check if this DayTime is after.
-     * @param otherDayTime Other DayTime to compare to.
-     * @return true if it is after else false.
-     */
-    public boolean isAfter(DayTime otherDayTime) {
-        return this.compareTo(otherDayTime) > 0;
-    }
-
-    /**
-     * Check if this DayTime is same.
-     * @param otherDayTime Other DayTime to compare to.
-     * @return true if it is same time else false.
-     */
-    public boolean isSame(DayTime otherDayTime) {
-        return this.compareTo(otherDayTime) == 0;
+    @Override
+    public String toString() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("K:ha");
+        return "DayTime{" +
+                "time=" + time.format(dtf) +
+                ", day=" + day +
+                '}';
     }
 }

@@ -1,7 +1,6 @@
 package com.alamkanak.weekview;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import org.threeten.bp.DayOfWeek;
 
 /**
  * Created by Raquib on 1/6/2015.

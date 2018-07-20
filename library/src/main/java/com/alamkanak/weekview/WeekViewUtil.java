@@ -1,8 +1,6 @@
 package com.alamkanak.weekview;
 
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import org.threeten.bp.DayOfWeek;
 
 /**
  * Created by jesse on 6/02/2016.
@@ -23,8 +21,13 @@ public class WeekViewUtil {
      * @param dateTwo the second date
      * @return the amount of days between dateTwo and dateOne
      */
-    public static long daysBetween(DayOfWeek dateOne, DayOfWeek dateTwo) {
-        return Math.abs(dateOne.getValue() - dateTwo.getValue());
+    public static int daysBetween(DayOfWeek dateOne, DayOfWeek dateTwo) {
+        int daysInBetween = 0;
+        while (dateOne != dateTwo) {
+            daysInBetween++;
+            dateOne = dateOne.plus(1);
+        }
+        return daysInBetween;
     }
 
     /*

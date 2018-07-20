@@ -8,8 +8,8 @@ import com.alamkanak.weekview.DayTime;
 import com.alamkanak.weekview.TextColorPicker;
 import com.alamkanak.weekview.WeekViewEvent;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import org.threeten.bp.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +40,7 @@ public class BasicActivity extends BaseActivity {
     @Override
     public List<? extends WeekViewEvent> onMonthChange() {
         // Populate the week view with some events.
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        List<WeekViewEvent> events = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
             DayTime startTime = new DayTime(LocalDateTime.now().plusHours(i*(random.nextInt(3) + 1)));

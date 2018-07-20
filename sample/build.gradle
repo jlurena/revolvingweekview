@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
-
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.1'
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.alamkanak.weekview"
-        minSdkVersion 26
-        targetSdkVersion 28
+        minSdkVersion 22
+        targetSdkVersion 27
         versionCode 1
         versionName "2.0"
     }
@@ -18,9 +17,12 @@ android {
         }
     }
 }
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+
+    // java.time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 }

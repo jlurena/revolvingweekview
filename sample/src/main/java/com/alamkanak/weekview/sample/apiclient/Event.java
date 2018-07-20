@@ -8,11 +8,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import org.threeten.bp.LocalDateTime;
 
 /**
  * An event model that was built for automatic serialization from json to object.
@@ -79,22 +75,6 @@ public class Event {
 
     @SuppressLint("SimpleDateFormat")
     public WeekViewEvent toWeekViewEvent() {
-
-        // Parse time.
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        Date start = new Date();
-        Date end = new Date();
-        try {
-            start = sdf.parse(getStartTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            end = sdf.parse(getEndTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         // Initialize start and end time.
         DayTime now = new DayTime(LocalDateTime.now());
         DayTime after = new DayTime(now);
