@@ -5,12 +5,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion 22
+        targetSdkVersion 27
     }
 }
 
@@ -18,8 +18,12 @@ configurations {
     javadocDeps
 }
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    javadocDeps 'com.android.support:appcompat-v7:25.1.0'
+    // java.time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+
+    // Support Libraries
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    javadocDeps 'com.android.support:appcompat-v7:27.1.1'
 }
 
 apply from: 'gradle-mvn-push.gradle'
