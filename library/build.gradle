@@ -5,17 +5,25 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
+        minSdkVersion 22
+        targetSdkVersion 27
     }
 }
 
+configurations {
+    javadocDeps
+}
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    // java.time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+
+    // Support Libraries
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    javadocDeps 'com.android.support:appcompat-v7:27.1.1'
 }
 
-apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
+apply from: 'gradle-mvn-push.gradle'

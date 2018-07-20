@@ -1,11 +1,12 @@
 package com.alamkanak.weekview;
 
-import java.util.Calendar;
+import org.threeten.bp.DayOfWeek;
 
 /**
  * Created by Raquib on 1/6/2015.
  */
 public interface DateTimeInterpreter {
-    String interpretDate(Calendar date);
-    String interpretTime(int hour);
+    String interpretDate(DayOfWeek day);
+
+    String interpretTime(int hour, int minutes);
 }
