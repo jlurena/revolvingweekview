@@ -38,7 +38,7 @@ public class BasicActivity extends BaseActivity {
     }
 
     @Override
-    public List<? extends WeekViewEvent> onMonthChange() {
+    public List<? extends WeekViewEvent> onWeekViewLoad() {
         // Populate the week view with some events.
         List<WeekViewEvent> events = new ArrayList<>();
         Random random = new Random();

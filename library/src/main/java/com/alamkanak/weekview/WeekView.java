@@ -1,5 +1,6 @@
 package com.alamkanak.weekview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -12,7 +13,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
@@ -194,7 +194,8 @@ public class WeekView extends View {
                 case LEFT:
                 case RIGHT:
                     mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX *
-                            mXScrollingSpeed), 0, (int) getXMinLimit(), (int) getXMaxLimit(), (int) getYMinLimit(), (int)
+                            mXScrollingSpeed), 0, (int) getXMinLimit(), (int) getXMaxLimit(), (int) getYMinLimit(),
+                            (int)
                             getYMaxLimit());
                     break;
                 case VERTICAL:
@@ -317,7 +318,8 @@ public class WeekView extends View {
                 Collections.reverse(reversedEventRects);
                 for (EventRect eventRect : reversedEventRects) {
                     if (!mNewEventIdentifier.equals(eventRect.event.getIdentifier()) && eventRect.rectF != null && e
-                            .getX() > eventRect.rectF.left && e.getX() < eventRect.rectF.right && e.getY() > eventRect.rectF
+                            .getX() > eventRect.rectF.left && e.getX() < eventRect.rectF.right && e.getY() >
+                            eventRect.rectF
                             .top && e.getY() < eventRect.rectF.bottom) {
                         mEventClickListener.onEventClick(eventRect.originalEvent, eventRect.rectF);
                         playSoundEffect(SoundEffectConstants.CLICK);
@@ -464,7 +466,8 @@ public class WeekView extends View {
                     mHourSeparatorHeight);
             mTodayHeaderTextColor = a.getColor(R.styleable.WeekView_todayHeaderTextColor, mTodayHeaderTextColor);
             mEventTextSize = a.getDimensionPixelSize(R.styleable.WeekView_eventTextSize, (int) TypedValue
-                    .applyDimension(TypedValue.COMPLEX_UNIT_SP, mEventTextSize, context.getResources().getDisplayMetrics()));
+                    .applyDimension(TypedValue.COMPLEX_UNIT_SP, mEventTextSize, context.getResources()
+                            .getDisplayMetrics()));
             mEventTextColor = a.getColor(R.styleable.WeekView_eventTextColor, mEventTextColor);
             mNewEventColor = a.getColor(R.styleable.WeekView_newEventColor, mNewEventColor);
             mNewEventIconDrawable = a.getDrawable(R.styleable.WeekView_newEventIconResource);
@@ -633,6 +636,7 @@ public class WeekView extends View {
      * @see #setMinDate(DayOfWeek)
      * @see #setMaxDate(DayOfWeek)
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean dateIsValid(DayOfWeek day) {
         return (mMinDay == null || day.compareTo(mMinDay) >= 0) && (mMaxDay == null || day.compareTo(mMaxDay) <= 0);
     }
@@ -754,7 +758,8 @@ public class WeekView extends View {
                     // Ellipsize text to fit into event rect.
                     if (!mNewEventIdentifier.equals(event.getIdentifier()))
                         textLayout = new StaticLayout(TextUtils.ellipsize(bob, mEventTextPaint, availableLineCount *
-                                availableWidth, TextUtils.TruncateAt.END), mEventTextPaint, (int) (rect.right - originalLeft
+                                availableWidth, TextUtils.TruncateAt.END), mEventTextPaint, (int) (rect.right -
+                                originalLeft
                                 - mEventPadding * 2), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 
                     // Reduce line count.
@@ -974,7 +979,8 @@ public class WeekView extends View {
                     }
                 } else {
                     canvas.drawRect(start, mHeaderHeight + mHeaderRowPadding * 2 + mTimeTextHeight / 2 +
-                            mHeaderMarginBottom, startPixel + mWidthPerDay, getHeight(), isToday ? mTodayBackgroundPaint :
+                            mHeaderMarginBottom, startPixel + mWidthPerDay, getHeight(), isToday ?
+                            mTodayBackgroundPaint :
                             mDayBackgroundPaint);
                 }
             }
@@ -1384,11 +1390,10 @@ public class WeekView extends View {
      * once.
      * </p>
      *
-     * @param firstDayOfWeek First day of the week.
+     * @param firstDayOfWeek The supported values are {@link DayOfWeek}.
      */
-    public void setFirstDayOfWeek(DayOfWeek firstDayOfWeek) {
-        this.mFirstDayOfWeek = firstDayOfWeek;
-        invalidate();
+    public void setFirstDayOfWeek(int firstDayOfWeek) {
+        setFirstDayOfWeek(DayOfWeek.of(firstDayOfWeek));
     }
 
     /**
@@ -1499,7 +1504,7 @@ public class WeekView extends View {
         return mHourSeparatorHeight;
     }
 
-    public void setHourSeparatorHeight(int hourSeparatorHeight) {
+    @SuppressWarnings("SuspiciousNameCombination") public void setHourSeparatorHeight(int hourSeparatorHeight) {
         mHourSeparatorHeight = hourSeparatorHeight;
         mHourSeparatorPaint.setStrokeWidth(mHourSeparatorHeight);
         invalidate();
@@ -1602,18 +1607,6 @@ public class WeekView extends View {
         this.mMinOverlappingMinutes = minutes;
     }
 
-    public
-    @Nullable
-    MonthLoader.MonthChangeListener getMonthChangeListener() {
-        if (mWeekViewLoader instanceof MonthLoader)
-            return ((MonthLoader) mWeekViewLoader).getOnMonthChangeListener();
-        return null;
-    }
-
-    public void setMonthChangeListener(MonthLoader.MonthChangeListener monthChangeListener) {
-        this.mWeekViewLoader = new MonthLoader(monthChangeListener);
-    }
-
     /**
      * Gets more events of one/more month(s) if necessary. This method is called when the user is
      * scrolling the week view. The week view stores the events of three months: the visible month,
@@ -1641,7 +1634,7 @@ public class WeekView extends View {
 
         if (mWeekViewLoader != null) {
             if (!isInEditMode() && (mFetchedPeriod < 0 || mRefreshEvents)) {
-                List<? extends WeekViewEvent> newEvents = mWeekViewLoader.onLoad();
+                List<? extends WeekViewEvent> newEvents = mWeekViewLoader.onWeekViewLoad();
 
                 // Clear events.
                 this.clearEvents();
@@ -1824,7 +1817,7 @@ public class WeekView extends View {
         if (mMinDay == null || mMaxDay == null)
             return getNumberOfVisibleDays();
 
-        return (int) Math.min(mNumberOfVisibleDays, daysBetween(mMinDay, mMaxDay) + 1);
+        return Math.min(mNumberOfVisibleDays, daysBetween(mMinDay, mMaxDay) + 1);
     }
 
     /**
@@ -1897,7 +1890,7 @@ public class WeekView extends View {
             float start = (startPixel < mHeaderColumnWidth ? mHeaderColumnWidth : startPixel);
             if (mWidthPerDay + startPixel - start > 0 && x > start && x < startPixel + mWidthPerDay) {
                 DayTime day = new DayTime();
-                day.setDay(dayNumber - 1);
+                day.setDay(mHomeDate.plus(dayNumber - 1));
                 float pixelsFromZero = y - mCurrentOrigin.y - mHeaderHeight
                         - mHeaderRowPadding * 2 - mTimeTextHeight / 2 - mHeaderMarginBottom;
                 int hour = (int) (pixelsFromZero / mHourHeight);
@@ -2129,7 +2122,7 @@ public class WeekView extends View {
         goToDate(now.getDayOfWeek());
     }
 
-    private void init() {
+    @SuppressWarnings("SuspiciousNameCombination") private void init() {
         resetHomeDate();
 
         // Scrolling initialization.
@@ -2458,7 +2451,7 @@ public class WeekView extends View {
         mAreDimensionsInvalid = true;
     }
 
-    @Override
+    @SuppressLint("ClickableViewAccessibility") @Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleDetector.onTouchEvent(event);
         boolean val = mGestureDetector.onTouchEvent(event);
@@ -2534,10 +2527,11 @@ public class WeekView extends View {
      * once.
      * </p>
      *
-     * @param firstDayOfWeek The supported values are {@link DayOfWeek}.
+     * @param firstDayOfWeek First day of the week.
      */
-    public void setFirstDayOfWeek(int firstDayOfWeek) {
-        setFirstDayOfWeek(DayOfWeek.of(firstDayOfWeek));
+    public void setFirstDayOfWeek(DayOfWeek firstDayOfWeek) {
+        this.mFirstDayOfWeek = firstDayOfWeek;
+        invalidate();
     }
 
     /**
@@ -2715,6 +2709,16 @@ public class WeekView extends View {
         void onFirstVisibleDayChanged(DayOfWeek newFirstVisibleDay, DayOfWeek oldFirstVisibleDay);
     }
 
+    public interface WeekViewLoader {
+
+        /**
+         * Load the events within the period
+         *
+         * @return A list with the events of this period
+         */
+        List<? extends WeekViewEvent> onWeekViewLoad();
+    }
+
     /**
      * A class to hold reference to the events and their visual representation. An EventRect is
      * actually the rectangle that is drawn on the calendar for a given event. There may be more
@@ -2724,13 +2728,13 @@ public class WeekView extends View {
      * instance will be stored in "event".
      */
     private class EventRect {
-        public WeekViewEvent event;
-        public WeekViewEvent originalEvent;
-        public RectF rectF;
-        public float left;
-        public float width;
-        public float top;
-        public float bottom;
+        WeekViewEvent event;
+        WeekViewEvent originalEvent;
+        RectF rectF;
+        float left;
+        float width;
+        float top;
+        float bottom;
 
         /**
          * Create a new instance of event rect. An EventRect is actually the rectangle that is drawn

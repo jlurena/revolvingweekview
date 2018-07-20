@@ -1,20 +1,18 @@
 package com.alamkanak.weekview.sample;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
+
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.DayTime;
-import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -31,7 +29,7 @@ import java.util.Locale;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public abstract class BaseActivity extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener, WeekView.AddEventClickListener, WeekView.DropListener {
+public abstract class BaseActivity extends AppCompatActivity implements WeekView.EventClickListener, WeekView.WeekViewLoader, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener, WeekView.AddEventClickListener, WeekView.DropListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -44,19 +42,19 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         AndroidThreeTen.init(this);
         setContentView(R.layout.activity_base);
 
-        TextView draggableView = (TextView) findViewById(R.id.draggable_view);
+        TextView draggableView = findViewById(R.id.draggable_view);
         draggableView.setOnLongClickListener(new DragTapListener());
 
 
         // Get a reference for the week view in the layout.
-        mWeekView = (WeekView) findViewById(R.id.weekView);
+        mWeekView = findViewById(R.id.weekView);
 
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
 
         // The week view has infinite scrolling horizontally. We have to provide the events of a
         // month every time the month changes on the week view.
-        mWeekView.setMonthChangeListener(this);
+        mWeekView.setWeekViewLoader(this);
 
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
@@ -211,7 +209,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     }
 
     @Override
-    public List<? extends WeekViewEvent> onMonthChange() {
+    public List<? extends WeekViewEvent> onWeekViewLoad() {
         return null;
     }
 
