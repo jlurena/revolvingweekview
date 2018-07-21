@@ -1,8 +1,10 @@
 package me.jlurena.revolvingweekview.sample;
 
 import android.content.ClipData;
+import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -39,8 +41,13 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
+    private static final Random random = new Random();
     protected WeekView mWeekView;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+
+    private static @ColorInt int randomColor() {
+        return Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+    }
 
     protected String getEventTitle(DayTime time) {
         return String.format(Locale.getDefault(), "Event of %s %02d:%02d", time.getDay().getDisplayName(TextStyle
@@ -196,12 +203,13 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
     public List<? extends WeekViewEvent> onWeekViewLoad() {
         // Populate the week view with some events.
         List<WeekViewEvent> events = new ArrayList<>();
-        Random random = new Random();
         for (int i = 0; i < 10; i++) {
             DayTime startTime = new DayTime(LocalDateTime.now().plusHours(i * (random.nextInt(3) + 1)));
             DayTime endTime = new DayTime(startTime);
-            endTime.addMinutes(30);
-            events.add(new WeekViewEvent("ID" + i, "Event " + i, startTime, endTime));
+            endTime.addMinutes(random.nextInt(30) + 30);
+            WeekViewEvent event = new WeekViewEvent("ID" + i, "Event " + i, startTime, endTime);
+            event.setColor(randomColor());
+            events.add(event);
         }
         return events;
     }
@@ -221,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
             public String interpretTime(int hour, int minutes) {
                 String strMinutes = String.format(Locale.getDefault(), "%02d", minutes);
                 if (hour > 11) {
-                    return (hour - 12) + ":" + strMinutes + " PM";
+                    return (hour == 12 ? "12:" + strMinutes : (hour - 12) + ":" + strMinutes) + " PM";
                 } else {
                     if (hour == 0) {
                         return "12:" + strMinutes + " AM";

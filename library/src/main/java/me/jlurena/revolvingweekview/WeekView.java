@@ -143,7 +143,7 @@ public class WeekView extends View {
     private double mScrollToHour = -1;
     private int mEventCornerRadius = 0;
     private boolean mShowDistinctWeekendColor = false;
-    private boolean mShowNowLine = false;
+    private boolean mShowNowLine = true;
     private boolean mShowDistinctPastFutureColor = false;
     private boolean mHorizontalFlingEnabled = true;
     private boolean mVerticalFlingEnabled = true;
