@@ -5,21 +5,24 @@
     <item
         android:id="@+id/action_today"
         android:title="@string/action_today"
-        android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
-    <group>
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/action_day_view"
             android:title="@string/action_day_view"
-            app:showAsAction="ifRoom" />
+            android:orderInCategory="2"
+            app:showAsAction="never" />
         <item
             android:id="@+id/action_three_day_view"
             android:title="@string/action_three_day_view"
-            app:showAsAction="ifRoom"
+            android:orderInCategory="3"
+            app:showAsAction="never"
             android:checked="true" />
         <item
             android:id="@+id/action_week_view"
             android:title="@string/action_week_view"
-            app:showAsAction="ifRoom" />
+            android:orderInCategory="4"
+            app:showAsAction="never" />
     </group>
 </menu>
