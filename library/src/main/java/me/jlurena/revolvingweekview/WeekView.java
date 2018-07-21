@@ -33,6 +33,8 @@ import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.OverScroller;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
@@ -54,7 +56,7 @@ import static me.jlurena.revolvingweekview.WeekViewUtil.getPassedMinutesInDay;
  */
 public class WeekView extends View {
 
-    private final static LocalDateTime now = LocalDateTime.now();
+    private final LocalDateTime now;
     private final Context mContext;
     private DayOfWeek mHomeDate;
     private DayOfWeek mMinDay;
@@ -426,6 +428,8 @@ public class WeekView extends View {
 
     public WeekView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        AndroidThreeTen.init(context);
+        now = LocalDateTime.now();
 
         // Hold references.
         mContext = context;
