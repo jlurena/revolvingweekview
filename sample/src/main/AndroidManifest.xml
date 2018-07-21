@@ -17,12 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".BasicActivity"
-            android:label="@string/title_activity_basic"></activity>
-        <activity
-            android:name=".AsynchronousActivity"
-            android:label="@string/title_activity_asynchronous"></activity>
     </application>
 
 </manifest>
