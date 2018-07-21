@@ -1,4 +1,4 @@
-package com.alamkanak.weekview.sample;
+package me.jlurena.revolvingweekview.sample;
 
 import android.content.ClipData;
 import android.graphics.RectF;
@@ -11,10 +11,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alamkanak.weekview.DateTimeInterpreter;
-import com.alamkanak.weekview.DayTime;
-import com.alamkanak.weekview.WeekView;
-import com.alamkanak.weekview.WeekViewEvent;
+import me.jlurena.revolvingweekview.DateTimeInterpreter;
+import me.jlurena.revolvingweekview.DayTime;
+import me.jlurena.revolvingweekview.WeekView;
+import me.jlurena.revolvingweekview.WeekViewEvent;
+
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.DayOfWeek;

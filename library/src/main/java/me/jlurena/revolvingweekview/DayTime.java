@@ -1,4 +1,4 @@
-package com.alamkanak.weekview;
+package me.jlurena.revolvingweekview;
 
 import android.support.annotation.NonNull;
 

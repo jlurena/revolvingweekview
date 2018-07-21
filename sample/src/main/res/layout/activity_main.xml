@@ -6,7 +6,7 @@
     tools:context=".MainActivity"
     android:background="#fff">
 
-    <com.alamkanak.weekview.WeekView
+    <me.jlurena.revolvingweekview.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

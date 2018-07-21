@@ -1,4 +1,4 @@
-package com.alamkanak.weekview;
+package me.jlurena.revolvingweekview;
 
 import org.threeten.bp.DayOfWeek;
 

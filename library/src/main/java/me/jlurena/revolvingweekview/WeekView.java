@@ -1,4 +1,4 @@
-package com.alamkanak.weekview;
+package me.jlurena.revolvingweekview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -45,8 +45,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import static com.alamkanak.weekview.WeekViewUtil.daysBetween;
-import static com.alamkanak.weekview.WeekViewUtil.getPassedMinutesInDay;
+import static me.jlurena.revolvingweekview.WeekViewUtil.daysBetween;
+import static me.jlurena.revolvingweekview.WeekViewUtil.getPassedMinutesInDay;
 
 /**
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
@@ -2670,7 +2670,7 @@ public class WeekView extends View {
 
     public interface EmptyViewLongPressListener {
         /**
-         * Similar to {@link com.alamkanak.weekview.WeekView.EmptyViewClickListener} but with long press.
+         * Similar to {@link me.jlurena.revolvingweekview.WeekView.EmptyViewClickListener} but with long press.
          *
          * @param time: {@link DayTime} object set with the date and time of the long pressed position on the view.
          */
@@ -2689,7 +2689,7 @@ public class WeekView extends View {
 
     public interface EventLongPressListener {
         /**
-         * Similar to {@link com.alamkanak.weekview.WeekView.EventClickListener} but with a long press.
+         * Similar to {@link me.jlurena.revolvingweekview.WeekView.EventClickListener} but with a long press.
          *
          * @param event: event clicked.
          * @param eventRect: view containing the clicked event.
