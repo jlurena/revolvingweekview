@@ -4,11 +4,11 @@ Revolving Week View (Android)
 
 **Android Week View** is an android library to display a static week calendar with options of viewing 1-7 days of the week at a time.
 <div align="center">
-	<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/samplegif.gif"/> 
+	<img src="images/3dayview.png"/>
 </div>
-<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/dayview.png" alt="Day View" width="270" height="480"/>
-<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/3dayview.png" alt="Three Day View" width="270" height="480"/>
-<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/weekview.png" alt="Three Day View" width="270" height="480"/>
+<img src="images/3dayview.png" width="270" height="480"/>
+<img src="images/3dayview.png" alt="Three Day View" width="270" height="480"/>
+<img src="images/3dayview.png" alt="Three Day View" width="270" height="480"/>
 
 
 Features
