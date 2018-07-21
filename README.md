@@ -1,62 +1,60 @@
-[Join our slack](https://join.slack.com/t/androidweekview/shared_invite/enQtMzEyMDE3NzU3NTM3LWQyZGRhNjRlMTUzNzNlNjNlM2M0OTMyMDhjMzE1NDMzOGQzYzhjNzI2YjZhZWM3MzJiY2I1YmY2NGEwOTlkNTY)
 
+Revolving Week View (Android)
+===
 
-Android Week View
-=================
+**Android Week View** is an android library to display a static week calendar with options of viewing 1-7 days of the week at a time.
+<div align="center">
+	<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/samplegif.gif"/> 
+</div>
+<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/dayview.png" alt="Day View" width="270" height="480"/>
+<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/3dayview.png" alt="Three Day View" width="270" height="480"/>
+<img src="https://raw.githubusercontent.com/jlurena/revolvingweekview/master/images/weekview.png" alt="Three Day View" width="270" height="480"/>
 
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/Android-Week-View/Lobby)
-
-**Android Week View** is an android library to display calendars (week view or day view) within the app. It supports custom styling.
-
-[Why this fork? (features + community & contributing)](https://github.com/Quivr/Android-Week-View/issues/45)
-
-![](images/screen-shot.png)
 
 Features
-------------
+---
 
-* Week view calendar
-* Day view calendar
+* Choose from 1-7 viewing days
 * Custom styling
 * Vertical scrolling and zooming
-* Infinite horizontal scrolling
-* Possibility to set min and max date
+* Possibility to set min and max day of the week
 * Possibility to set range of visible hours
 * All day events at the top
 * Live preview of custom styling in xml preview window
 
-Who uses it
----------------
-
-* [Quivr](https://quivr.be/en/)
-* [Series Addict](https://play.google.com/store/apps/details?id=com.alamkanak.seriesaddict)
-* [Unicaen Timetable](https://play.google.com/store/apps/details?id=fr.skyost.timetable)
-* Using the library? Just make an issue
-
-Getting Started
----------------
-
-See the [wiki](https://github.com/Quivr/Android-Week-View/wiki)
-
 Sample
-----------
+---
 
-There is also a [sample app](https://github.com/quivr/Android-Week-View/tree/master/sample) to get you started.
+There is also a [sample app](https://github.com/jlurena/revolvingweekview/tree/master/sample) to get you started.
 
+Special Thanks and Credits
+---
+* Original author [Raquib-ul Alam (Kanak)](https://github.com/alamkanak) and the widget this library is based off  [Android-Week-View](https://github.com/alamkanak/Android-Week-View)
+* [Quivr](https://github.com/Quivr)'s fork https://github.com/Quivr/Android-Week-View
+* The Github community and everyone that contributed to Android-Week-View.
 
-License
-----------
+The MIT License (MIT)
+=====================
 
-    Copyright 2014 Raquib-ul-Alam
+Copyright © `2018` `Jean Luis Urena`
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the “Software”), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
 
-       http://www.apache.org/licenses/LICENSE-2.0
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
