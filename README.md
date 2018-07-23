@@ -1,4 +1,5 @@
 
+
 Revolving Week View (Android)
 ===
 
@@ -19,17 +20,66 @@ Features
 * Vertical scrolling and zooming
 * Possibility to set min and max day of the week
 * Possibility to set range of visible hours
-* All day events at the top
-* Live preview of custom styling in xml preview window
+* Drag and drop a View into an area in the calendar
 
 Sample
 ---
 
 There is also a [sample app](https://github.com/jlurena/revolvingweekview/tree/master/sample) to get you started.
 
+Getting Started
+---
+Via Maven
+
+    <dependency>
+      <groupId>com.github.quivr</groupId>
+      <artifactId>android-week-view</artifactId>
+      <version>2.2.2</version>
+      <type>aar</type>
+    </dependency>
+
+Via Gradle
+
+    implementation 'me.jlurena:revolvingweekview:1.0.0'
+Stay up to date with the latest version http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22me.jlurena%22
+
+Write the following code in your layout file
+
+    <me.jlurena.revolvingweekview.WeekView  
+      android:id="@+id/revolving_weekview"  
+      android:layout_width="match_parent"  
+      android:layout_height="match_parent"  
+      app:eventTextColor="@android:color/white"  
+      app:hourHeight="60dp"  
+      app:headerColumnPadding="8dp"  
+      app:headerColumnTextColor="#8f000000"  
+      app:headerRowPadding="12dp"  
+      app:noOfVisibleDays="3"  
+      app:headerRowBackgroundColor="@color/color_accent"  
+      app:dayBackgroundColor="#05000000"  
+      app:todayBackgroundColor="#1848adff"  
+      app:headerColumnBackground="#ffefefef"  
+      />
+Write the following in your activity
+
+        // Get a reference for the week view in the layout.
+        mWeekView = (WeekView) findViewById(R.id.revolving_weekview);
+        
+        // Set an WeekViewLoader to draw the events on load.
+        mWeekView.setWeekViewLoader(new WeekView.WeekViewLoader() {  
+      
+	        @Override  
+		    public List<? extends WeekViewEvent> onWeekViewLoad() {
+			    List<WeekViewEvent> events = new ArrayList<>();
+	            // Add some events
+	            return events;
+	        }  
+	    });
+	    // There are many other Listeners to choose from as well.
+
 Special Thanks and Credits
 ---
-* Original author [Raquib-ul Alam (Kanak)](https://github.com/alamkanak) and the widget this library is based off  [Android-Week-View](https://github.com/alamkanak/Android-Week-View)
+*  Author [Raquib-ul Alam (Kanak)](https://github.com/alamkanak) and the widget this library was inspired by  [Android-Week-View](https://github.com/alamkanak/Android-Week-View)
 * [Quivr](https://github.com/Quivr)'s fork https://github.com/Quivr/Android-Week-View
 * The Github community and everyone that contributed to Android-Week-View.
 
