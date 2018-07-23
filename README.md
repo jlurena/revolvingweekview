@@ -69,8 +69,8 @@ Write the following in your activity
         mWeekView.setWeekViewLoader(new WeekView.WeekViewLoader() {  
       
 	        @Override  
-		    public List<? extends WeekViewEvent> onWeekViewLoad() {
-			    List<WeekViewEvent> events = new ArrayList<>();
+		public List<? extends WeekViewEvent> onWeekViewLoad() {
+		    List<WeekViewEvent> events = new ArrayList<>();
 	            // Add some events
 	            return events;
 	        }  
