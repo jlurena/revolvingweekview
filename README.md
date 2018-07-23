@@ -32,9 +32,9 @@ Getting Started
 Via Maven
 
     <dependency>
-      <groupId>com.github.quivr</groupId>
-      <artifactId>android-week-view</artifactId>
-      <version>2.2.2</version>
+      <groupId>me.jlurena</groupId>
+      <artifactId>revolvingweekview</artifactId>
+      <version>1.0.0</version>
       <type>aar</type>
     </dependency>
 
