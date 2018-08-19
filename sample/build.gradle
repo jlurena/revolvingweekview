@@ -4,7 +4,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.alamkanak.weekview"
+        applicationId "me.jlurena.revolvingweekview"
         minSdkVersion 22
         targetSdkVersion 27
         versionCode 1

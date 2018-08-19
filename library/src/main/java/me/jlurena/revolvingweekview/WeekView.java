@@ -931,7 +931,7 @@ public class WeekView extends View {
                  dayNumber <= leftDaysWithGaps + getRealNumberOfVisibleDays();
                  dayNumber++) {
                 DayTime day = new DayTime();
-                day.setDay(dayNumber - 1);
+                day.setDay(dayNumber);
                 days.add(day);
             }
             limitEventTime(days);
