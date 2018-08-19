@@ -32,9 +32,9 @@ Getting Started
 Via Maven
 
     <dependency>
-      <groupId>com.github.quivr</groupId>
-      <artifactId>android-week-view</artifactId>
-      <version>2.2.2</version>
+      <groupId>me.jlurena</groupId>
+      <artifactId>revolvingweekview</artifactId>
+      <version>1.0.0</version>
       <type>aar</type>
     </dependency>
 
@@ -69,8 +69,8 @@ Write the following in your activity
         mWeekView.setWeekViewLoader(new WeekView.WeekViewLoader() {  
       
 	        @Override  
-		    public List<? extends WeekViewEvent> onWeekViewLoad() {
-			    List<WeekViewEvent> events = new ArrayList<>();
+		public List<? extends WeekViewEvent> onWeekViewLoad() {
+		    List<WeekViewEvent> events = new ArrayList<>();
 	            // Add some events
 	            return events;
 	        }  
