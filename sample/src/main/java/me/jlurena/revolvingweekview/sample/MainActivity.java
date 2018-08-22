@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import me.jlurena.revolvingweekview.DateTimeInterpreter;
 import me.jlurena.revolvingweekview.DayTime;
 import me.jlurena.revolvingweekview.WeekView;
 import me.jlurena.revolvingweekview.WeekViewEvent;
@@ -219,10 +218,10 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
      * date values otherwise.
      */
     private void setupDateTimeInterpreter() {
-        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
+        mWeekView.setDateTimeInterpreter(new WeekView.DateTimeInterpreter() {
             @Override
-            public String interpretDate(DayOfWeek date) {
-                return date.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+            public String interpretDay(int date) {
+                return DayOfWeek.of(date).getDisplayName(TextStyle.SHORT, Locale.getDefault());
             }
 
             @Override
