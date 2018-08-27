@@ -53,16 +53,6 @@ public class DayTime implements Comparable<DayTime> {
     }
 
     /**
-     * Create a DayTime object event.
-     *
-     * @param day Integer representing a day of the weej based on {@link DayOfWeek}
-     * @param time The {@link LocalTime# time}.
-     */
-    public DayTime(int day, LocalTime time) {
-        this(DayOfWeek.of(day), time);
-    }
-
-    /**
      * Default constructor with no parameters.
      */
     public DayTime() {
@@ -71,6 +61,58 @@ public class DayTime implements Comparable<DayTime> {
     public DayTime(LocalDateTime localDateTime) {
         this.day = localDateTime.getDayOfWeek();
         this.time = localDateTime.toLocalTime();
+    }
+
+    public DayOfWeek getDay() {
+        return day;
+    }
+
+    public void setDay(DayOfWeek day) {
+        this.day = day;
+    }
+
+    /**
+     * Day of week integer value. Values are described in {@link DayOfWeek}
+     *
+     * @return Integer value of the day of the week.
+     */
+    public int getDayValue() {
+        return day.getValue();
+    }
+
+    /**
+     * Get hour in time
+     *
+     * @return Hour in time.
+     */
+    public int getHour() {
+        return this.time.getHour();
+    }
+
+    /**
+     * Get minute in time.
+     *
+     * @return Minute in time.
+     */
+    public int getMinute() {
+        return this.time.getMinute();
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    /**
+     * Sets the day of week based on values in #{@link DayOfWeek}.
+     *
+     * @param day Integer representing the day of the week.
+     */
+    public void setDay(int day) {
+        this.day = DayOfWeek.of(day);
     }
 
     /**
@@ -111,52 +153,15 @@ public class DayTime implements Comparable<DayTime> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         DayTime dayTime = (DayTime) o;
         return Objects.equals(time, dayTime.time) &&
                 day == dayTime.day;
-    }
-
-    public DayOfWeek getDay() {
-        return day;
-    }
-
-    /**
-     * Sets the day of week based on values in #{@link DayOfWeek}.
-     *
-     * @param day Integer representing the day of the week.
-     */
-    public void setDay(int day) {
-        this.day = DayOfWeek.of(day);
-    }
-
-    /**
-     * Get hour in time
-     *
-     * @return Hour in time.
-     */
-    public int getHour() {
-        return this.time.getHour();
-    }
-
-    /**
-     * Get minute in time.
-     *
-     * @return Minute in time.
-     */
-    public int getMinute() {
-        return this.time.getMinute();
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 
     @Override
@@ -192,10 +197,6 @@ public class DayTime implements Comparable<DayTime> {
      */
     public boolean isSame(DayTime otherDayTime) {
         return this.compareTo(otherDayTime) == 0;
-    }
-
-    public void setDay(DayOfWeek day) {
-        this.day = day;
     }
 
     /**

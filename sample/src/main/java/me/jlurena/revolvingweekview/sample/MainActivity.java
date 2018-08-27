@@ -6,7 +6,6 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +16,6 @@ import android.widget.Toast;
 import me.jlurena.revolvingweekview.DayTime;
 import me.jlurena.revolvingweekview.WeekView;
 import me.jlurena.revolvingweekview.WeekViewEvent;
-
-import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDateTime;
@@ -111,13 +108,13 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
     }
 
     @Override
-    public void onDrop(View view, DayTime date) {
-        Toast.makeText(this, "View dropped to " + date.toString(), Toast.LENGTH_SHORT).show();
+    public void onDrop(View view, DayTime day) {
+        Toast.makeText(this, "View dropped to " + day.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onEmptyViewClicked(DayTime date) {
-        Toast.makeText(this, "Empty view" + " clicked: " + getEventTitle(date), Toast.LENGTH_SHORT).show();
+    public void onEmptyViewClicked(DayTime day) {
+        Toast.makeText(this, "Empty view" + " clicked: " + getEventTitle(day), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -218,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
      * date values otherwise.
      */
     private void setupDateTimeInterpreter() {
-        mWeekView.setDateTimeInterpreter(new WeekView.DateTimeInterpreter() {
+        mWeekView.setDayTimeInterpreter(new WeekView.DayTimeInterpreter() {
             @Override
             public String interpretDay(int date) {
                 return DayOfWeek.of(date).getDisplayName(TextStyle.SHORT, Locale.getDefault());

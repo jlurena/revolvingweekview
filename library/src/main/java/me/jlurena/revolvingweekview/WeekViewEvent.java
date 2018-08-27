@@ -128,18 +128,6 @@ public class WeekViewEvent {
         this(id, name, null, startTime, endTime);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        WeekViewEvent that = (WeekViewEvent) o;
-
-        return mId.equals(that.mId);
-    }
-
     public @ColorInt
     int getColor() {
         return mColor;
@@ -197,17 +185,31 @@ public class WeekViewEvent {
         this.mStartTime = startTime;
     }
 
-    @Override
-    public int hashCode() {
-        return mId.hashCode();
-    }
-
     public boolean isAllDay() {
         return mAllDay;
     }
 
     public void setAllDay(boolean allDay) {
         this.mAllDay = allDay;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        WeekViewEvent that = (WeekViewEvent) o;
+
+        return mId.equals(that.mId);
+    }
+
+    @Override
+    public int hashCode() {
+        return mId.hashCode();
     }
 
     public List<WeekViewEvent> splitWeekViewEvents() {

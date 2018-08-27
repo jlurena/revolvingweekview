@@ -15,6 +15,16 @@ public class WeekViewUtil {
     /////////////////////////////////////////////////////////////////
 
     /**
+     * {@link DayOfWeek} day of week integer value to {@link java.util.Calendar#DAY_OF_WEEK} integer value.
+     *
+     * @param dayOfWeek The {@link DayOfWeek} integer value of the day of the week.
+     * @return Integer value representing Day Of Week per {@link java.util.Calendar} standards.
+     */
+    public static int dayOfWeekToCalendarDay(int dayOfWeek) {
+        return dayOfWeek == 7 ? 1 : dayOfWeek + 1;
+    }
+
+    /**
      * Returns the amount of days between the second date and the first date
      *
      * @param dateOne the first date
@@ -30,15 +40,6 @@ public class WeekViewUtil {
         return daysInBetween;
     }
 
-    /*
-     * Returns the amount of minutes passed in the day before the time in the given date
-     * @param date
-     * @return amount of minutes in day before time
-     */
-    public static int getPassedMinutesInDay(DayTime date) {
-        return getPassedMinutesInDay(date.getHour(), date.getMinute());
-    }
-
     /**
      * Returns the amount of minutes in the given hours and minutes
      *
@@ -48,5 +49,14 @@ public class WeekViewUtil {
      */
     public static int getPassedMinutesInDay(int hour, int minute) {
         return hour * 60 + minute;
+    }
+
+    /*
+     * Returns the amount of minutes passed in the day before the time in the given date
+     * @param date
+     * @return amount of minutes in day before time
+     */
+    public static int getPassedMinutesInDay(DayTime date) {
+        return getPassedMinutesInDay(date.getHour(), date.getMinute());
     }
 }
