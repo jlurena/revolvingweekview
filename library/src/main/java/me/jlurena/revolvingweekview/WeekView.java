@@ -906,12 +906,12 @@ public class WeekView extends View {
         mFirstVisibleDay.minus(Math.round(mCurrentOrigin.x / (mWidthPerDay + mColumnGap)));
 
         if (mAutoLimitTime) {
-            List<DayTime> days = new ArrayList<>();
+            List<DayOfWeek> days = new ArrayList<>();
             for (int dayNumber = leftDaysWithGaps + 1;
                  dayNumber <= leftDaysWithGaps + getRealNumberOfVisibleDays();
                  dayNumber++) {
-                DayTime day = new DayTime();
-                day.setDay(dayNumber);
+                DayOfWeek day = mHomeDay;
+                day.plus(dayNumber - 1);
                 days.add(day);
             }
             limitEventTime(days);
@@ -1425,14 +1425,14 @@ public class WeekView extends View {
      * limit current time of event by update mMinTime & mMaxTime
      * find smallest of start time & latest of end time
      */
-    private void limitEventTime(List<DayTime> days) {
+    private void limitEventTime(List<DayOfWeek> days) {
         if (mEventRects != null && mEventRects.size() > 0) {
             DayTime startTime = null;
             DayTime endTime = null;
 
             for (EventRect eventRect : mEventRects) {
-                for (DayTime day : days) {
-                    if (eventRect.event.getStartTime().getDay() == day.getDay() && !eventRect.event.isAllDay()) {
+                for (DayOfWeek day : days) {
+                    if (eventRect.event.getStartTime().getDay() == day && !eventRect.event.isAllDay()) {
 
                         if (startTime == null || getPassedMinutesInDay(startTime) > getPassedMinutesInDay(eventRect
                                 .event.getStartTime())) {

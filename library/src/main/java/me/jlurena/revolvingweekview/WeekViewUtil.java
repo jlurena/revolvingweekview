@@ -2,26 +2,25 @@ package me.jlurena.revolvingweekview;
 
 import org.threeten.bp.DayOfWeek;
 
-/**
- * Created by jesse on 6/02/2016.
- */
 public class WeekViewUtil {
-
-
-    /////////////////////////////////////////////////////////////////
-    //
-    //      Helper methods.
-    //
-    /////////////////////////////////////////////////////////////////
 
     /**
      * {@link DayOfWeek} day of week integer value to {@link java.util.Calendar#DAY_OF_WEEK} integer value.
      *
-     * @param dayOfWeek The {@link DayOfWeek} integer value of the day of the week.
+     * @param dayOfWeek The {@link DayOfWeek} integer value representing the day of the week.
      * @return Integer value representing Day Of Week per {@link java.util.Calendar} standards.
      */
     public static int dayOfWeekToCalendarDay(int dayOfWeek) {
-        return dayOfWeek == 7 ? 1 : dayOfWeek + 1;
+        return dayOfWeek % 7 + 1;
+    }
+
+    /**
+     * {@link java.util.Calendar#DAY_OF_WEEK} integer value to {@link DayOfWeek} integer value.
+     * @param calendarDay The {@link java.util.Calendar} integer value representing the day of the week.
+     * @return The correct {@link DayOfWeek} integer value.
+     */
+    public static int calendarDayToDayOfWeek(int calendarDay) {
+        return calendarDay == 1 ? 7 : calendarDay - 1;
     }
 
     /**
