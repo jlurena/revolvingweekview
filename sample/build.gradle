@@ -1,14 +1,12 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        applicationId "me.jlurena.revolvingweekview"
-        minSdkVersion 22
-        targetSdkVersion 27
-        versionCode 1
-        versionName "2.0"
+        applicationId "me.jlurena.revolvingweekview.sample"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
     }
     buildTypes {
         release {
@@ -21,7 +19,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 
     // java.time
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'

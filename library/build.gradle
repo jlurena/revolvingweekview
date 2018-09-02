@@ -6,12 +6,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 22
-        targetSdkVersion 27
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
     }
 }
 
@@ -23,6 +23,6 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     // Support Libraries
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    javadocDeps 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    javadocDeps "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 }
