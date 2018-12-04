@@ -185,6 +185,7 @@ public class WeekView extends View {
     private ScrollListener mScrollListener;
     private AddEventClickListener mAddEventClickListener;
     private DropListener mDropListener;
+    private ZoomEndListener mZoomEndListener;
 
     private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
@@ -1610,6 +1611,10 @@ public class WeekView extends View {
         this.mAddEventClickListener = addEventClickListener;
     }
 
+    public void setZoomEndListener(ZoomEndListener zoomEndListener) {
+        this.mZoomEndListener = zoomEndListener;
+    }
+
     public AddEventClickListener getAddEventClickListener() {
         return mAddEventClickListener;
     }
@@ -2787,6 +2792,14 @@ public class WeekView extends View {
         void onAddEventClicked(Calendar startTime, Calendar endTime);
     }
 
+    public interface ZoomEndListener {
+        /**
+         * Triggered when the user finishes a zoom action.
+         * @param hourHeight The final height of hours when the user finishes zoom.
+         */
+        void onZoomEnd(int hourHeight);
+    }
+
     /**
      * A simple GestureListener that holds the focused hour while scaling.
      */
@@ -2796,6 +2809,7 @@ public class WeekView extends View {
         @Override
         public void onScaleEnd(ScaleGestureDetector detector) {
             mIsZooming = false;
+            mZoomEndListener.onZoomEnd(mHourHeight);
         }
 
         @Override
