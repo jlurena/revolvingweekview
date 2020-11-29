@@ -1,4 +1,4 @@
-
+Some bugs might still get fixed, as we are still using this library. But we do not have the time or in-house skills to actively maintain it.
 
 Revolving Week View (Android)
 ===

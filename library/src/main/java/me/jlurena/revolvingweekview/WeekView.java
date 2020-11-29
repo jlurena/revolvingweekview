@@ -19,6 +19,16 @@ import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.text.*;
 import android.text.format.DateFormat;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
@@ -50,6 +60,13 @@ import java.util.Locale;
 
 import static me.jlurena.revolvingweekview.WeekViewUtil.daysBetween;
 import static me.jlurena.revolvingweekview.WeekViewUtil.getPassedMinutesInDay;
+import android.view.*;
+import android.widget.OverScroller;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static me.jlurena.revolvingweekview.WeekViewUtil.*;
 
 /**
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
@@ -169,8 +186,10 @@ public class WeekView extends View {
     private EmptyViewLongPressListener mEmptyViewLongPressListener;
     private DayTimeInterpreter mDayTimeInterpreter;
     private AddEventClickListener mAddEventClickListener;
-    private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector
-            .SimpleOnGestureListener() {
+    private DropListener mDropListener;
+    private ZoomEndListener mZoomEndListener;
+
+    private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -419,7 +438,6 @@ public class WeekView extends View {
             return super.onSingleTapConfirmed(e);
         }
     };
-    private DropListener mDropListener;
 
     public WeekView(Context context) {
         this(context, null);
@@ -718,6 +736,18 @@ public class WeekView extends View {
 
         int availableHeight = (int) (rect.bottom - originalTop - mEventPadding * 2);
         int availableWidth = (int) (rect.right - originalLeft - mEventPadding * 2);
+        // Clip to paint in left column only.
+        canvas.save();
+        canvas.clipRect(0, mHeaderHeight + mHeaderRowPadding * 2, mHeaderColumnWidth, getHeight());
+        canvas.restore();
+        
+        for (int i = 0; i < getNumberOfPeriods(); i++) {
+            // If we are showing half hours (eg. 5:30am), space the times out by half the hour height
+            // and need to provide 30 minutes on each odd period, otherwise, minutes is always 0.
+            float timeSpacing;
+            int minutes;
+            int hour;
+        }
 
         // Get text color if necessary
         if (textColorPicker != null) {
@@ -1018,6 +1048,7 @@ public class WeekView extends View {
 
         // Draw the header background.
         canvas.drawRect(0, 0, getWidth(), mHeaderHeight + mHeaderRowPadding * 2, mHeaderBackgroundPaint);
+        canvas.restore();
 
         // Draw the header row texts.
         startPixel = startFromPixel;
@@ -1049,8 +1080,6 @@ public class WeekView extends View {
         // Draw the background color for the header column.
         canvas.drawRect(0, mHeaderHeight + mHeaderRowPadding * 2, mHeaderColumnWidth, getHeight(),
                 mHeaderColumnBackgroundPaint);
-        canvas.restore(); // Restore previous clip from #drawHeaderRowAndEvents
-
         // Clip to paint in left column only.
         canvas.save();
         canvas.clipRect(0, mHeaderHeight + mHeaderRowPadding * 2, mHeaderColumnWidth, getHeight());
@@ -1421,6 +1450,10 @@ public class WeekView extends View {
         return !((start1 + minOverlappingMillis >= end2) || (end1 <= start2 + minOverlappingMillis));
     }
 
+    public void setZoomEndListener(ZoomEndListener zoomEndListener) {
+        this.mZoomEndListener = zoomEndListener;
+    }
+
     /**
      * limit current time of event by update mMinTime & mMaxTime
      * find smallest of start time & latest of end time
@@ -1586,6 +1619,8 @@ public class WeekView extends View {
         }
     }
 
+
+
     /**
      * A simple GestureListener that holds the focused hour while scaling.
      */
@@ -1630,6 +1665,9 @@ public class WeekView extends View {
         @Override
         public void onScaleEnd(ScaleGestureDetector detector) {
             mIsZooming = false;
+            if (mZoomEndListener != null) {
+                mZoomEndListener.onZoomEnd(mHourHeight);
+            }
         }
 
     }
@@ -2838,10 +2876,17 @@ public class WeekView extends View {
     }
 
     public interface TextColorPicker {
-
         @ColorInt int getTextColor(WeekViewEvent event);
-
     }
+
+    public interface ZoomEndListener {
+        /**
+         * Triggered when the user finishes a zoom action.
+         * @param hourHeight The final height of hours when the user finishes zoom.
+         */
+        void onZoomEnd(int hourHeight);
+    }
+
 
     public interface WeekViewLoader {
 
